@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="vKl3RJhue17qzkXtqfgJ">
-    <mxGraphModel dx="1397" dy="980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+    <mxGraphModel dx="669" dy="469" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -259,7 +259,7 @@
         <mxCell id="KTJQasRMXfHk-u9kT1U3-81" parent="KTJQasRMXfHk-u9kT1U3-78" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Wait For Nozzle to Cool to Room Temp (RT)" vertex="1">
           <mxGeometry height="45" width="90" x="15" y="15" as="geometry" />
         </mxCell>
-        <mxCell id="KTJQasRMXfHk-u9kT1U3-82" parent="KTJQasRMXfHk-u9kT1U3-78" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Temp (T)" vertex="1">
+        <mxCell id="KTJQasRMXfHk-u9kT1U3-82" parent="KTJQasRMXfHk-u9kT1U3-78" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Nozzle Temp (T)" vertex="1">
           <mxGeometry height="45" width="90" x="15" y="60" as="geometry" />
         </mxCell>
         <mxCell id="KTJQasRMXfHk-u9kT1U3-83" edge="1" parent="KTJQasRMXfHk-u9kT1U3-77" style="curved=1;curveGeometry=1;endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="KTJQasRMXfHk-u9kT1U3-79" value="">
@@ -273,7 +273,7 @@
             <mxPoint x="110" y="30" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KTJQasRMXfHk-u9kT1U3-84" parent="KTJQasRMXfHk-u9kT1U3-77" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div&gt;RT\(\le\) T&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="KTJQasRMXfHk-u9kT1U3-84" parent="KTJQasRMXfHk-u9kT1U3-77" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div&gt;RT&amp;lt; T&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="55" width="90" x="15" y="20" as="geometry" />
         </mxCell>
         <mxCell id="KTJQasRMXfHk-u9kT1U3-85" edge="1" parent="1" source="KTJQasRMXfHk-u9kT1U3-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="KTJQasRMXfHk-u9kT1U3-79">
@@ -355,17 +355,17 @@
         <mxCell id="KTJQasRMXfHk-u9kT1U3-103" edge="1" parent="1" source="KTJQasRMXfHk-u9kT1U3-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="KTJQasRMXfHk-u9kT1U3-89">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="720" y="540" />
-              <mxPoint x="420" y="540" />
+              <mxPoint x="720" y="570" />
+              <mxPoint x="420" y="570" />
               <mxPoint x="420" y="725" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="KTJQasRMXfHk-u9kT1U3-104" edge="1" parent="1" source="KTJQasRMXfHk-u9kT1U3-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="KTJQasRMXfHk-u9kT1U3-97">
-          <mxGeometry relative="1" x="0.0036" as="geometry">
+          <mxGeometry relative="1" x="0.0027" as="geometry">
             <Array as="points">
-              <mxPoint x="720" y="540" />
-              <mxPoint x="810" y="540" />
+              <mxPoint x="720" y="570" />
+              <mxPoint x="810" y="570" />
               <mxPoint x="810" y="725" />
             </Array>
           </mxGeometry>
@@ -388,7 +388,7 @@
         <mxCell id="KTJQasRMXfHk-u9kT1U3-109" parent="KTJQasRMXfHk-u9kT1U3-106" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Wait for Nozzle to Heat up to Printing Temp" vertex="1">
           <mxGeometry height="45" width="90" x="15" y="15" as="geometry" />
         </mxCell>
-        <mxCell id="KTJQasRMXfHk-u9kT1U3-110" parent="KTJQasRMXfHk-u9kT1U3-106" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Temperature (T)" vertex="1">
+        <mxCell id="KTJQasRMXfHk-u9kT1U3-110" parent="KTJQasRMXfHk-u9kT1U3-106" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Nozzle Temperature (T)" vertex="1">
           <mxGeometry height="45" width="90" x="15" y="60" as="geometry" />
         </mxCell>
         <mxCell id="KTJQasRMXfHk-u9kT1U3-111" edge="1" parent="KTJQasRMXfHk-u9kT1U3-105" style="curved=1;curveGeometry=1;endArrow=classic;html=1;rounded=0;defaultLabelBackgroundColor=page;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="KTJQasRMXfHk-u9kT1U3-107" value="">
@@ -405,8 +405,8 @@
         <mxCell id="KTJQasRMXfHk-u9kT1U3-112" parent="KTJQasRMXfHk-u9kT1U3-105" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="T &amp;lt; 215\(^{\circ}\)C&amp;nbsp;" vertex="1">
           <mxGeometry height="55" width="90" x="15" y="10" as="geometry" />
         </mxCell>
-        <mxCell id="KTJQasRMXfHk-u9kT1U3-115" edge="1" parent="1" source="KTJQasRMXfHk-u9kT1U3-100" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="KTJQasRMXfHk-u9kT1U3-107">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="KTJQasRMXfHk-u9kT1U3-115" edge="1" parent="1" source="KTJQasRMXfHk-u9kT1U3-97" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="KTJQasRMXfHk-u9kT1U3-107">
+          <mxGeometry relative="1" x="-0.0667" as="geometry" />
         </mxCell>
         <mxCell id="KTJQasRMXfHk-u9kT1U3-116" edge="1" parent="1" source="KTJQasRMXfHk-u9kT1U3-89" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="KTJQasRMXfHk-u9kT1U3-107">
           <mxGeometry relative="1" as="geometry" />
@@ -422,6 +422,21 @@
             <mxPoint x="493.9999999999998" y="980" as="sourcePoint" />
             <mxPoint x="383.9999999999998" y="260" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="1huq_-35YgTzBE1Gbp9a-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="RT\(\le\)T" vertex="1">
+          <mxGeometry height="30" width="60" x="710" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="1huq_-35YgTzBE1Gbp9a-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Loaded" vertex="1">
+          <mxGeometry height="30" width="60" x="680" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="1huq_-35YgTzBE1Gbp9a-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Loaded" vertex="1">
+          <mxGeometry height="30" width="60" x="500" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="1huq_-35YgTzBE1Gbp9a-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="215\(^{\circ}\)C \(\le\) T&amp;nbsp;" vertex="1">
+          <mxGeometry height="30" width="110" x="590" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="1huq_-35YgTzBE1Gbp9a-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="(x,y)" vertex="1">
+          <mxGeometry height="30" width="60" x="520" y="270" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
