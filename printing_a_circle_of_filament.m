@@ -1,1 +1,16 @@
 %% Numerical calculation of the PDE-filament problem
+% variables
+rho = 1240;         % PLA-density [kg/m-3]
+c = 1600;           % specific heat capacity [J/kgK]
+k = 0.13;           % thermal conductivity of filament [W/mK]
+w = 0.45e-3;        % line width of 0.45mm
+A = w^2;            % cross section
+k_air = 30;         % convection coefficient [W/m^2K]
+k_plate = 300;      % effective coefficient [W/m^2K]
+T_n = 200 + 273;    % nozzle temperature [K]
+T_p = 60 + 273;     % plate temperature [K]
+T_e = 20 + 273:     % environmental temperature [K]
+v = 50e-3;          % print speed [m/s]
+L_tot = 0.255;      % total lenght of a 5x3cm eliptical path
+t_print = L_tot/v;  % total print time to complete one path
+
