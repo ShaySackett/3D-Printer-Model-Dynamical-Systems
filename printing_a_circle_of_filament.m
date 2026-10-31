@@ -12,13 +12,13 @@ T_p = 60 + 273;     % plate temperature [K]
 T_e = 20 + 273;     % environmental temperature [K]
 v = 50e-3;          % print speed [m/s]
 L_tot = 0.255;      % total length of a 5x3cm elliptical path
-t_end = L_tot/v;  % total print time to complete one path
+t_end = L_tot/v;    % total print time to complete one path
 
 % discretization
 nozzle_width = 1e-3;                  % nozzle of 1mm [m]
 nNodes = L_tot/nozzle_width;          % number of spatial nodes
 dx = L_tot/(nNodes - 1);              % spatial step [m]
-x = linspace(0, L_tot, nNodes).';     % spatial grid [m]
+% x = linspace(0, L_tot, nNodes).';     % spatial grid [m]
 dt = dx/v;                            % time step based on print speed [s]
 
 % temperature array
@@ -30,13 +30,14 @@ n_deposits = 0; % number of deposits done by the nozzle
 spread = inf;   % initialized spread between Tmax and Tmin
 tol = 2;        % tolerance of spread
 t = 0;
+x = 0;
 
 %% TIME MARCHING
-while ~(t >= t_print && spread < tol)
+while ~(t >= t_end && spread < tol)
     Tnew = T;
 
     % new deposit of filament
-    if t < t_end
+    if t < t_end 
         n_deposits = n_deposits + 1;
         Tnew(n_deposits) = T_n;
     end
@@ -45,34 +46,30 @@ while ~(t >= t_print && spread < tol)
     for i = 1:n_deposits
         % open
         if x < L_tot
-            % extra air side for first deposit
-            if i == 1
+            if i == 1               % first deposit
                 n_air_sides = 4;
-                Txx = (T_e - 2 * Tnew(i) + Tnew(i+1)) / (dx ^ 2);
-            else
+                Txx = 2 * (T(2) - T(1)) / dx^2;
+            elseif i == n_deposits  % newest deposit (held at Tn)
+                continue
+            else                    % all other deposits
                 n_air_sides = 3;
                 Txx = (Tnew(i-1) - 2 * Tnew(i) + Tnew(i+1)) / (dx ^ 2);
             end
-            % exposed sides
-            f_air = n_air_sides * dx * (T_e - Tnew(i)) / (w * rho * c);
-            f_plate = dx * (T_p - Tnew(i)) / (w * rho * c);
-            % update deposit
-            Tnew(i) = T(i) + dt * (k * Txx + f_air + f_plate);
         % closed
-        elseif x >= L_tot
+        else
             n_air_sides = 3;
             % first and last deposit connected
             if i == 1
                 Txx = (T(n_deposits) - 2 * Tnew(i) + Tnew(i+1)) / (dx ^ 2);
             elseif i == n_deposits
-                Txx = (T(i) - 2 * Tnew(i) + Tnew(1)) / (dx ^ 2);
+                Txx = (T(i-1) - 2 * Tnew(i) + T(1)) / (dx ^ 2);
             else
                 Txx = (Tnew(i-1) - 2 * Tnew(i) + Tnew(i+1)) / (dx ^ 2);
             end
         end
         % exposed sides
-        f_air = n_air_sides * dx * (T_e - Tnew(i)) / (w * rho * c);
-        f_plate = dx * (T_p - Tnew(i)) / (w * rho * c);
+        f_air = n_air_sides * k_air * (T_e - Tnew(i)) / (w * rho * c);
+        f_plate = k_plate  * (T_p - Tnew(i)) / (w * rho * c);
         % update deposit
         Tnew(i) = T(i) + dt * (k * Txx + f_air + f_plate);
     end
@@ -85,5 +82,6 @@ while ~(t >= t_print && spread < tol)
 end
 
 %% DISPLAY RESULTS
-display(t)
-display(t_end)
+fprintf('print done at %.1f s;, uniform (spread<%g K) at %.1f s (%.1f s after print)\n', ...
+        t_end, tol, t, t-t_end);
+fprintf('final temperatures: %.1f - %.1f degC\n', min(T)-273, max(T)-273);
