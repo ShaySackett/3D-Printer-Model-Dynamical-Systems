@@ -9,8 +9,14 @@ k_air = 30;         % convection coefficient [W/m^2K]
 k_plate = 300;      % effective coefficient [W/m^2K]
 T_n = 200 + 273;    % nozzle temperature [K]
 T_p = 60 + 273;     % plate temperature [K]
-T_e = 20 + 273:     % environmental temperature [K]
+T_e = 20 + 273;     % environmental temperature [K]
 v = 50e-3;          % print speed [m/s]
-L_tot = 0.255;      % total lenght of a 5x3cm eliptical path
+L_tot = 0.255;      % total length of a 5x3cm elliptical path
 t_print = L_tot/v;  % total print time to complete one path
 
+% discretization
+nozzle_width = 1e-3;                  % nozzle of 1mm [m]
+nNodes = L_tot/nozzle_width;          % number of spatial nodes
+dx = L_tot/(nNodes - 1);              % spatial step [m]
+x = linspace(0, L_tot, nNodes).';     % spatial grid [m]
+dt = dx/v;                            % time step based on print speed [s]
