@@ -2,7 +2,7 @@
 % variables
 rho = 1240;         % PLA-density [kg/m-3]
 c = 1600;           % specific heat capacity [J/kgK]
-k = 0.13/(rho*c);   % thermal conductivity of filament [W/mK]
+k = 0.13/(rho*c);   % thermal conductivity of filament [m^2/s]
 w = 0.45e-3;        % line width of 0.45mm
 A = w^2;            % cross section
 k_air = 30;         % convection coefficient [W/m^2K]
@@ -28,7 +28,7 @@ T(1) = T_n;
 %% INITIALIZATION
 n_deposits = 0; % number of deposits done by the nozzle
 spread = inf;   % initialized spread between Tmax and Tmin
-tol = 2;        % tolerance of spread
+tol = 1;      % degrees tolerance of spread
 t = 0;
 x = 0;
 
@@ -40,36 +40,37 @@ while ~(t >= t_end && spread < tol)
     if t < t_end 
         n_deposits = n_deposits + 1;
         Tnew(n_deposits) = T_n;
+        T(n_deposits)    = T_n;
     end
 
     % apply fourier law to all deposits
     for i = 1:n_deposits
         % open
         if x < L_tot
-            if i == 1               % first deposit
+            if i == n_deposits  % newest deposit (held at Tn)
+                continue
+            elseif i == 1       % first deposit
                 n_air_sides = 4;
                 Txx = 2 * (T(2) - T(1)) / dx^2;
-            elseif i == n_deposits  % newest deposit (held at Tn)
-                continue
-            else                    % all other deposits
+            else                % all other deposits
                 n_air_sides = 3;
-                Txx = (Tnew(i-1) - 2 * Tnew(i) + Tnew(i+1)) / (dx ^ 2);
+                Txx = (T(i-1) - 2 * T(i) + T(i+1)) / (dx ^ 2);
             end
         % closed
         else
             n_air_sides = 3;
             % first and last deposit connected
             if i == 1
-                Txx = (T(n_deposits) - 2 * Tnew(i) + Tnew(i+1)) / (dx ^ 2);
+                Txx = (T(n_deposits) - 2 * T(i) + T(i+1)) / (dx ^ 2);
             elseif i == n_deposits
-                Txx = (T(i-1) - 2 * Tnew(i) + T(1)) / (dx ^ 2);
+                Txx = (T(i-1) - 2 * T(i) + T(1)) / (dx ^ 2);
             else
-                Txx = (Tnew(i-1) - 2 * Tnew(i) + Tnew(i+1)) / (dx ^ 2);
+                Txx = (T(i-1) - 2 * T(i) + T(i+1)) / (dx ^ 2);
             end
         end
         % exposed sides
-        f_air = n_air_sides * k_air * (T_e - Tnew(i)) / (w * rho * c);
-        f_plate = k_plate  * (T_p - Tnew(i)) / (w * rho * c);
+        f_air = n_air_sides * k_air * (T_e - T(i)) / (w * rho * c);
+        f_plate = k_plate  * (T_p - T(i)) / (w * rho * c);
         % update deposit
         Tnew(i) = T(i) + dt * (k * Txx + f_air + f_plate);
     end
