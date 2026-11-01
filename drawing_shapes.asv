@@ -1,4 +1,6 @@
 %% Q1.4 - Drawing shapes with the decoupled XY model
+% Simulates and plots BOTH the ellipse and the heart trajectory,
+% each shown inside the 29 x 29 cm print bed.
 %% constant variables
 % motor constants
 r_m = 0.011; L_m = 0.01; R_m = 90; J_m = 8e-6; K_m = 0.07;
@@ -15,13 +17,6 @@ dx = 0.29; dy = 0.29;
 % center of print area
 cx = dx / 2; cy = dy / 2;
 
-%% initiate simulation
-T = linspace(0, 2 * pi, 400)';
-u_l = [-zeros(100, 1)', cos(T(1:100)/0.8)', 0.5*cos(T(1:100)/1.5)', -ones(100, 1)'];
-u_r = [-ones(100, 1)', sin(T(1:100)/0.8)', 0.5*sin(T(1:100)/1.5)', -zeros(100, 1)'];
-x0 = [cx; 0; 0];
-y0 = [cy; 0; 0];
-
 %% state space
 D  = 2*J_m + m*r_m^2;
 a_x = -2*r_m^2*(4*mu_r + mu_lx)/D;   % friction damps
@@ -35,25 +30,74 @@ Ay = [0 1 0; 0 a_y bT; 0 cE dE];    By = [0;0;1/L_m];
 Cx = [1 0 0];
 Cy = [1 0 0];
 
-u_x = u_l + u_r;
-u_y = u_l - u_r;
-
-%% transfer function
-% Gx = Cx * (inv(s * eye(3) - Ax) \ Bx);
-% Gy = Cy * (inv(s * eye(3) - Ay) \ By);
-
+% build both systems once, reuse them for the two shapes
 sysX = ss(Ax, Bx, Cx, 0);
-X = lsim(sysX, u_x, T, x0);
-
 sysY = ss(Ay, By, Cy, 0);
-Y = lsim(sysY, u_y, T, y0);
 
-%% plot simulated trajectories
-% plotting X and Y of each other
-figure;
-plot(X, Y, 'LineWidth', 1.5);
-grid on;
-axis equal;
-xlabel('X position (m)');
-ylabel('Y position (m)');
-title('Simulated Trajectory');
+%% time base and initial conditions
+T  = linspace(0, 2*pi, 325)';
+x0 = [cx; 0; 0];
+y0 = [cy; 0; 0];
+
+%% ---------- shape 1: ellipse ----------
+u_l = (cx/2) * cos(2*T);
+u_r = (cy/4) * sin(2*T);
+[Xe, Ye] = simulateShape(sysX, sysY, u_l, u_r, x0, y0, T);
+
+%% ---------- shape 2: heart ----------
+% built as column vectors (semicolon) so lsim receives 325x1 inputs
+u_l = [ zeros(65,1); 0.5*cos(T(1:100)/1.2); 0.4*cos(T(1:100)/0.9); -ones(60,1)];
+u_r = [-ones(65,1);   0.5*sin(T(1:100)/1.2); 0.4*sin(T(1:100)/0.9); -zeros(60,1)];
+[Xh, Yh] = simulateShape(sysX, sysY, u_l, u_r, x0, y0, T);
+
+%% plot simulated trajectories: both diagrams side by side
+figure('Name', 'Q1.4 - Drawn shapes', 'Color', 'w');
+
+% ellipse
+subplot(1, 2, 1);
+plotShapeOnBed(Xe, Ye, dx, dy, 'Ellipse');
+
+% heart
+subplot(1, 2, 2);
+plotShapeOnBed(Xh, Yh, dx, dy, 'Heart');
+
+function [X, Y] = simulateShape(sysX, sysY, u_l, u_r, x0, y0, T)
+% combines belt inputs and simulates the X and Y axes.
+    u_x = u_l + u_r;
+    u_y = u_l - u_r;
+    X = lsim(sysX, u_x, T, x0);
+    Y = lsim(sysY, u_y, T, y0);
+end
+
+function plotShapeOnBed(X, Y, dx, dy, shapeName)
+% draws the trajectory inside the print bed, with the
+% bed boundary, its dimensions, and a small margin visible.
+
+    % draw the print bed as a grey rectangle
+    rectangle('Position', [0 0 dx dy], 'EdgeColor', [0.5 0.5 0.5], ...
+              'LineWidth', 1.2, 'FaceColor', [0.93 0.93 0.93]);
+
+    % mark the bed centre
+    hold on;
+    plot(dx/2, dy/2, '+', 'Color', [0.5 0.5 0.5], 'LineWidth', 1);
+
+    % trajectory on top of the bed
+    plot(X, Y, 'b', 'LineWidth', 1.5);
+
+    % dimension annotations: width and height of the bed
+    text(dx/2, -0.012, sprintf('%.0f cm', dx*100), ...
+         'HorizontalAlignment', 'center', 'Color', [0.3 0.3 0.3]);
+    text(-0.012, dy/2, sprintf('%.0f cm', dy*100), ...
+         'HorizontalAlignment', 'right', 'VerticalAlignment', 'middle', ...
+         'Color', [0.3 0.3 0.3]);
+
+    hold off;
+    axis equal;
+    axis([-0.02 dx+0.01 -0.02 dy+0.01]);   % small margin around the bed
+    grid on;
+    xlabel('X position (m)');
+    ylabel('Y position (m)');
+    title(['Simulated Trajectory: ' shapeName]);
+    legend({'Print bed', 'Trajectory'}, 'Location', 'southoutside', ...
+           'Orientation', 'horizontal');
+end
